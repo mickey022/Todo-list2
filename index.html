@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do List</title>
+<style>
+    .list {
+        border: 1px solid black;
+        width: 90%;
+        max-width: 600px; /* Set maximum width for larger screens */
+        height: auto; /* Change height to auto for responsiveness */
+        margin: auto;
+        background-color: rgb(20, 122, 211);
+        position: relative;
+        padding: 20px; /* Add padding for better spacing */
+    }
+    
+    .inp {
+        margin-top: 10px;
+    }
+    
+    .inp input {
+        border: 1px solid black;
+        height: 40px;
+        border-radius: 2px;
+        width: 100%; /* Make input width 100% for responsiveness */
+        max-width: 300px; /* Set maximum width for larger screens */
+        margin-bottom: 10px; /* Add margin bottom for better spacing */
+    }
+    
+    #add {
+        height: 35px;
+        width: 100%; /* Make button width 100% for responsiveness */
+        max-width: 120px; /* Set maximum width for larger screens */
+        background-color: cornflowerblue;
+        border: 0;
+    }
+    
+    #show {
+        margin-top: 20px; /* Add margin top for better spacing */
+    }
+    
+    #todo-list {
+        list-style: none; /* Remove default list style */
+        padding: 0; /* Remove default padding */
+    }
+    
+    #todo-list li {
+        margin-bottom: 10px; /* Add margin bottom for better spacing between items */
+        position: relative; /* Add position relative for positioning delete button */
+    }
+    
+    .delete-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: red;
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+    
+    .clear {
+        margin-top: 20px; /* Add margin top for better spacing */
+    }
+    
+    .clear button {
+        height: 35px;
+        width: 100%; /* Make button width 100% for responsiveness */
+        max-width: 120px; /* Set maximum width for larger screens */
+        background-color: cornflowerblue;
+        border: 0;
+    }
+    
+    @media screen and (max-width: 600px) {
+        .list {
+            width: 100%; /* Make list width 100% for smaller screens */
+        }
+    }
+</style>
+
+</head>
+<body>
+    <div class="list">
+        <div class="inp">
+            <input type="text" placeholder="Enter a task" id="inpp">
+            <button type="button" id="add">ADD</button>
+        </div>
+        <div id="show">
+            <h1>To-Do List</h1>
+            <ul id="todo-list"></ul>
+        </div>
+        <div class="buttons">
+            <button id="showCompleted">Completed</button>
+            <button id="showUncompleted">Uncompleted</button>
+            <button id="showAll">All</button>
+        </div>
+        <div class="clear"><button id="clearButton">CLEAR ALL</button></div>
+    </div>
+    
+    <script>
+    document.getElementById("add").addEventListener("click", function() {
+        let inputValue = document.getElementById("inpp").value.trim();
+        if (inputValue === "") {
+            alert("Please enter a task!");
+            return;
+        }
+    
+        let todoList = document.getElementById("todo-list");
+        var listItem = document.createElement("li");
+        listItem.classList.add("kim");
+    
+        let checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        listItem.appendChild(checkbox);
+    
+        let label = document.createElement("label");
+        label.textContent = inputValue;
+        listItem.appendChild(label);
+    
+        todoList.appendChild(listItem);
+    
+        let deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.classList.add("delete-btn");
+        listItem.appendChild(deleteButton);
+    
+        deleteButton.addEventListener("click", function() {
+            listItem.remove();
+        });
+    
+        document.getElementById("inpp").value = "";
+    });
+    
+    const clearButton = document.getElementById('clearButton');
+    const todoList = document.getElementById('todo-list');
+    
+    clearButton.addEventListener('click', function() {
+        while (todoList.firstChild) {
+            todoList.removeChild(todoList.firstChild);
+        }
+    });
+    
+    // Filter buttons
+    document.getElementById("showCompleted").addEventListener("click", function() {
+        filterTasks(true);
+    });
+    
+    document.getElementById("showUncompleted").addEventListener("click", function() {
+        filterTasks(false);
+    });
+    
+    document.getElementById("showAll").addEventListener("click", function() {
+        showAllTasks();
+    });
+    
+    function filterTasks(completed) {
+        let tasks = document.querySelectorAll("#todo-list li");
+        tasks.forEach(function(task) {
+            let checkbox = task.querySelector("input[type='checkbox']");
+            if (checkbox.checked === completed) {
+                task.style.display = "block";
+            } else {
+                task.style.display = "none";
+            }
+        });
+    }
+    
+    function showAllTasks() {
+        let tasks = document.querySelectorAll("#todo-list li");
+        tasks.forEach(function(task) {
+            task.style.display = "block";
+        });
+    }
+    </script>
+    
+
+</body>
+</html>
+
+    
